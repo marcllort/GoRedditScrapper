@@ -4,10 +4,6 @@ import (
 	"DataRetriever/downloadHelper"
 	"DataRetriever/utils"
 	"fmt"
-	"io"
-	"net/http"
-	"os"
-	"path/filepath"
 	"strings"
 	"time"
 
@@ -43,9 +39,8 @@ func main() {
 		tempPost.Comments = e.ChildAttr("a[data-event-action=comments]", "href")
 		tempPost.RetrievedAt = time.Now()
 		if strings.HasSuffix(tempPost.StoryURL, "jpg") || strings.HasSuffix(tempPost.StoryURL, "png") {
-			downloadFile(tempPost.StoryURL, tempPost.Title, utils.ImagePath(redditRepo))
-		}
-		if strings.Contains(tempPost.StoryURL, "imgur") {
+			downloadHelper.DownloadFile(tempPost.StoryURL, tempPost.Title, utils.ImagePath(redditRepo))
+		} else if strings.Contains(tempPost.StoryURL, "imgur") {
 			downloadHelper.ImgurDownload(tempPost.StoryURL, tempPost.Title, utils.UrlImagePath(e.Request.URL))
 		}
 		posts = append(posts, tempPost)
@@ -79,33 +74,4 @@ func main() {
 	collector.Wait()
 	fmt.Println(posts)
 
-}
-
-func downloadFile(URL, fileName string, directory string) error {
-	//Get the response bytes from the url
-
-	response, err := http.Get(URL)
-	if err != nil {
-	}
-	defer response.Body.Close()
-
-	fileName = fileName + ".png"
-	path, err := os.Getwd()
-	filePath := filepath.Join(path, directory)
-
-	os.MkdirAll(filePath, 0644)
-
-	//Create a empty file
-	file, err := os.Create(filepath.Join(filePath, fileName))
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	//Write the bytes to the fiel
-	_, err = io.Copy(file, response.Body)
-	if err != nil {
-		return err
-	}
-	return nil
 }
