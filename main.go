@@ -11,16 +11,17 @@ import (
 )
 
 type item struct {
-	StoryURL    string
-	Source      string
-	RetrievedAt time.Time
+	Title    string
+	StoryURL string
+	//dataURL     string
+	//Source      string
 	Comments    string
-	Title       string
+	RetrievedAt time.Time
 }
 
 func main() {
 	posts := []item{}
-	redditRepo := ""
+	subreddit := ""
 
 	// Instantiate default collector
 	collector := colly.NewCollector(
@@ -34,14 +35,17 @@ func main() {
 	collector.OnHTML(".top-matter", func(e *colly.HTMLElement) {
 		tempPost := item{}
 		tempPost.StoryURL = e.ChildAttr("a[data-event-action=title]", "href")
-		tempPost.Source = redditRepo
 		tempPost.Title = e.ChildText("a[data-event-action=title]")
 		tempPost.Comments = e.ChildAttr("a[data-event-action=comments]", "href")
 		tempPost.RetrievedAt = time.Now()
 		if strings.HasSuffix(tempPost.StoryURL, "jpg") || strings.HasSuffix(tempPost.StoryURL, "png") {
-			downloadHelper.DownloadFile(tempPost.StoryURL, tempPost.Title, utils.ImagePath(redditRepo))
+			downloadHelper.DownloadFile(tempPost.StoryURL, tempPost.Title, subreddit, "png")
 		} else if strings.Contains(tempPost.StoryURL, "imgur") {
-			downloadHelper.ImgurDownload(tempPost.StoryURL, tempPost.Title, utils.UrlImagePath(e.Request.URL))
+			downloadHelper.ImgurDownload(tempPost.StoryURL, tempPost.Title, subreddit)
+		} else if strings.Contains(tempPost.StoryURL, "gfycat") {
+			downloadHelper.GfycatDownload(tempPost.StoryURL, tempPost.Title, subreddit)
+		} else {
+			collector.Visit(tempPost.Comments)
 		}
 		posts = append(posts, tempPost)
 	})
@@ -67,8 +71,9 @@ func main() {
 	// Crawl all reddits the user passes in
 	reddits := [...]string{"https://old.reddit.com/r/funny", "https://old.reddit.com/r/tinder"}
 	for _, reddit := range reddits {
-		redditRepo = reddit
+		subreddit = utils.ImagePath(reddit)
 		collector.Visit(reddit)
+		time.Sleep(2 * time.Second)
 	}
 
 	collector.Wait()

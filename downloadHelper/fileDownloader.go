@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-func DownloadFile(URL, fileName string, directory string) error {
+func DownloadFile(URL, fileName string, directory string, fileExtension string) error {
 	//Get the response bytes from the url
 
 	response, err := http.Get(URL)
@@ -15,7 +15,7 @@ func DownloadFile(URL, fileName string, directory string) error {
 	}
 	defer response.Body.Close()
 
-	fileName = fileName + ".png"
+	fileName = fileName + "." + fileExtension
 	path, err := os.Getwd()
 	filePath := filepath.Join(path, directory)
 
