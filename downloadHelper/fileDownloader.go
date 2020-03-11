@@ -19,7 +19,7 @@ func DownloadFile(URL, fileName string, directory string, fileExtension string) 
 	path, err := os.Getwd()
 	filePath := filepath.Join(path, directory)
 
-	os.MkdirAll(filePath, 0644)
+	os.MkdirAll(filePath, 0777)
 
 	//Create a empty file
 	file, err := os.Create(filepath.Join(filePath, fileName))

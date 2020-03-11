@@ -1,8 +1,8 @@
 package main
 
 import (
-	"DataRetriever/database"
-	"DataRetriever/utils"
+	"GoRedditScrapper/database"
+	"GoRedditScrapper/utils"
 	"fmt"
 	"github.com/jasonlvhit/gocron"
 )

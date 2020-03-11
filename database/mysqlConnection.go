@@ -1,7 +1,7 @@
 package database
 
 import (
-	"DataRetriever/model"
+	"GoRedditScrapper/model"
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"

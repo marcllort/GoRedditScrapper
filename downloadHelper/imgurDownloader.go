@@ -20,7 +20,7 @@ func createFile(imageURL string, fileName string, directory string) {
 	path, _ := os.Getwd()
 	filePath := filepath.Join(path, directory)
 
-	os.MkdirAll(filePath, 0644)
+	os.MkdirAll(filePath, 0777)
 
 	//Create a empty file
 	file, err := os.Create(filepath.Join(filePath, fileName))

@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"DataRetriever/downloadHelper"
-	"DataRetriever/model"
+	"GoRedditScrapper/downloadHelper"
+	"GoRedditScrapper/model"
 	"database/sql"
 	"fmt"
 	"github.com/gocolly/colly"
