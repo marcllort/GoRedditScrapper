@@ -1,3 +1,3 @@
 # GoRedditScrapper
 
-!(REDDIT-1.jpg)
+![Diagram](REDDIT-1.jpg)
