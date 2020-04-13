@@ -1,0 +1,2 @@
+// Docker MYSQL instance creation
+docker run --name redditDB -e MYSQL_ROOT_PASSWORD=reddit -p 3306:3306 mysql

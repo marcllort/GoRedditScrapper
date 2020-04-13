@@ -28,7 +28,7 @@ func DownloadFile(URL, fileName string, directory string, fileExtension string) 
 	}
 	defer file.Close()
 
-	//Write the bytes to the fiel
+	//Write the bytes to the field
 	_, err = io.Copy(file, response.Body)
 	if err != nil {
 		return err

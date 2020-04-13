@@ -3,10 +3,10 @@ package model
 import "time"
 
 type Post struct {
-	Title    string
-	StoryURL string
-	//dataURL     string
-	//Source      string
+	Title       string
+	Subreddit   string
+	Hash        []byte
+	StoryURL    string
 	Comments    string
 	RetrievedAt time.Time
 }

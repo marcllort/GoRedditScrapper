@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"GoRedditScrapper/database"
 	"GoRedditScrapper/downloadHelper"
 	"GoRedditScrapper/model"
 	"database/sql"
@@ -27,6 +28,7 @@ func ScrapPosts(reddits []string, db *sql.DB) []model.Post {
 		tempPost := model.Post{}
 		tempPost.StoryURL = e.ChildAttr("a[data-event-action=title]", "href")
 		tempPost.Title = e.ChildText("a[data-event-action=title]")
+		tempPost.Subreddit = subreddit
 		tempPost.Comments = e.ChildAttr("a[data-event-action=comments]", "href")
 		tempPost.RetrievedAt = time.Now()
 		if strings.HasSuffix(tempPost.StoryURL, "jpg") || strings.HasSuffix(tempPost.StoryURL, "png") {
@@ -39,7 +41,7 @@ func ScrapPosts(reddits []string, db *sql.DB) []model.Post {
 			collector.Visit(tempPost.Comments)
 		}
 		posts = append(posts, tempPost)
-		//database.InsertPost(db,tempPost)
+		database.InsertPost(db, tempPost)
 	})
 
 	// On every span tag with the class next-button
