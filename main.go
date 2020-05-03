@@ -9,7 +9,7 @@ import (
 
 func retrieveReddit(reddits []string) {
 	db := database.CreateConnection()
-	posts := utils.ScrapPosts(reddits, db)
+	posts := utils.ScrapPostsReddit(reddits, db)
 	fmt.Println(posts)
 }
 

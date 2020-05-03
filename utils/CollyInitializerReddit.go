@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func ScrapPosts(reddits []string, db *sql.DB) []model.Post {
+func ScrapPostsReddit(reddits []string, db *sql.DB) []model.Post {
 	posts := []model.Post{}
 	subreddit := ""
 
